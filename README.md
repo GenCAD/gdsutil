@@ -1,9 +1,7 @@
-#############################################################
-##              Layout GDS Reader (GDS2GDT)                ##
-##                 Version: V2005r2                        ##
-#############################################################
+##              Layout GDS Reader (GDS2GDT) Version: V2005r2                        ##
 
 Usage: gds2gdt [options] <gdsfile:cell> ...
+
 	-logfile	<log file name>
 	-destination	<output destination directory>
 	-extension      <output file extension
@@ -24,11 +22,10 @@ Usage: gds2gdt [options] <gdsfile:cell> ...
 
 
 #############################################################
-##               Layout GDS Writer (GDT2GDX)               ##
-##                 Version: V2005r2                        ##
-#############################################################
+##               Layout GDS Writer (GDT2GDX) Version: V2005r2                        ##
 
 Usage: gdt2gdx [options] <gdtfile:cell> ...
+
 	-logfile	<log file name>
 	-destination    <output destination directory>
 	-extension      <output file extension
@@ -41,10 +38,9 @@ Usage: gdt2gdx [options] <gdtfile:cell> ...
 
 #############################################################################
 ##                 Layout GDS pinname Verification V9710                   ##
-##                          by Hung-Chun Li                                ##
-#############################################################################
 
 Usage: checkgds.pl [options] <gdsfile> ...
+
   [options]
 	+help		display this message.
 	+rule		display gds pinname checking rules.
