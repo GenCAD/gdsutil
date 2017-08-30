@@ -38,8 +38,6 @@
 ##                 Layout GDS pinname Verification V9710                   ##
 
   Usage: checkgds.pl [options] <gdsfile> ...
-
-  [options]
   
 	+help		display this message.
 	+rule		display gds pinname checking rules.
@@ -55,13 +53,18 @@
 	-s <spidir>	spice directory, if not specify do not check spice
 
   [arguments]
+  
 	<gdsfile>	can be gdsfile name or directory name
 
   Example:
-	% checkgds.pl inv0.gds 
+  
+	% checkgds.pl inv0.gds
+	
 	% checkgds.pl -p pmddir gdsdir/	
-	% checkgds -p pmddir1 -p pmddir2 gdsdir/*.gds
-	% checkgds -p pmddir -s spidir gdsdir/*
+	
+	% checkgds.pl -p pmddir1 -p pmddir2 gdsdir/*.gds
+	
+	% checkgds.pl -p pmddir -s spidir gdsdir/
 
 =============================================================================
 ### GDS CHECKING RULES:
@@ -72,9 +75,9 @@
    2. Texts are extracted from GDS:
       * Texts in Layer 62(TEXT) are recognized as Cell Label.
       * Texts in Layer 4x(TEXT) are recognized as pinnames.
-         40(TEXT1), 41(TEXT2), 42(TEXT3) ,43(TEXT4) and 44(TEXT5) 
+         - 40(TEXT1), 41(TEXT2), 42(TEXT3) ,43(TEXT4) and 44(TEXT5) 
       * Texts in Layer 16(METAL) will be reported as ERROR.
-         16(METAL1), 18(METAL2), 28(METAL2), 31(METAL2), 33(METAL2)
+         - 16(METAL1), 18(METAL2), 28(METAL2), 31(METAL2), 33(METAL2)
       * Texts in other Layers are considered as Internal pins (WARNING)
 
    3. Pin names and Cell Label should be UPPER CASE.
