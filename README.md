@@ -1,8 +1,6 @@
 ##              Layout GDS Reader (GDS2GDT) Version: V2005r2                        ##
 
-Usage: gds2gdt 
-
-  [options] <gdsfile:cell> ...
+  Usage: gds2gdt  [options] <gdsfile:cell> ...
 
 	-logfile	<log file name>
 	-destination	<output destination directory>
@@ -25,9 +23,7 @@ Usage: gds2gdt
 
 ##               Layout GDS Writer (GDT2GDX) Version: V2005r2                        ##
 
-Usage: gdt2gdx 
-
-  [options] <gdtfile:cell> ...
+  Usage: gdt2gdx  [options] <gdtfile:cell> ...
 
 	-logfile	<log file name>
 	-destination    <output destination directory>
@@ -41,7 +37,7 @@ Usage: gdt2gdx
 
 ##                 Layout GDS pinname Verification V9710                   ##
 
-Usage: checkgds.pl [options] <gdsfile> ...
+  Usage: checkgds.pl [options] <gdsfile> ...
 
   [options]
   
@@ -61,14 +57,14 @@ Usage: checkgds.pl [options] <gdsfile> ...
   [arguments]
 	<gdsfile>	can be gdsfile name or directory name
 
-Example:
-	checkgds inv0.gds 
-	checkgds -p pmddir gdsdir/
-	checkgds -p pmddir1 -p pmddir2 gdsdir/*.gds
-	checkgds -p pmddir -s spidir gdsdir/*
+  Example:
+	% checkgds.pl inv0.gds 
+	% checkgds.pl -p pmddir gdsdir/	
+	% checkgds -p pmddir1 -p pmddir2 gdsdir/*.gds
+	% checkgds -p pmddir -s spidir gdsdir/*
 
 =============================================================================
-GDS CHECKING RULES:
+### GDS CHECKING RULES:
 
    1. GDS should be flattened or pin text are all on the top structure,
       Only top structure will be checked.
