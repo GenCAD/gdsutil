@@ -1,13 +1,14 @@
-##              Layout GDS Reader (GDS2GDT) Version: V2005r2                        ##
+# GDS UTILITY
+##              Layout GDS Reader (GDS2GDT) Version: V2005r2               ##
 
-  Usage: gds2gdt  [options] <gdsfile:cell> ...
+Usage:	gds2gdt  [options] <gdsfile:cell> ...
 
 	-logfile	<log file name>
 	-destination	<output destination directory>
 	-extension      <output file extension
 	-gdtfilename    <output gdt file name>
-
 	-linewidth      <width>
+
 	-structure	<structure>,<structure>,...
 	-element	<elm name>,<elm name>,...
 	-layer		<layer id>,<layer id>,...
@@ -21,9 +22,9 @@
 	+stdin		read GDS from standard input
 
 
-##               Layout GDS Writer (GDT2GDX) Version: V2005r2                        ##
+##               Layout GDS Writer (GDT2GDX) Version: V2005r2              ##
 
-  Usage: gdt2gdx  [options] <gdtfile:cell> ...
+Usage:	gdt2gdx  [options] <gdtfile:cell> ...
 
 	-logfile	<log file name>
 	-destination    <output destination directory>
@@ -37,7 +38,7 @@
 
 ##                 Layout GDS pinname Verification V9710                   ##
 
-  Usage: checkgds.pl [options] <gdsfile> ...
+Usage:	checkgds.pl [options] <gdsfile> ...
   
 	+help		display this message.
 	+rule		display gds pinname checking rules.
@@ -67,7 +68,7 @@
 	% checkgds.pl -p pmddir -s spidir gdsdir/
 
 =============================================================================
-### GDS CHECKING RULES:
+### GDS PIN NAME CHECKING RULES:
 
    1. GDS should be flattened or pin text are all on the top structure,
       Only top structure will be checked.
