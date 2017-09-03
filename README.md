@@ -10,28 +10,34 @@ without decoding the GDS binary format.
 
 1. Compile Utility Library
 
-  * libutil
-  * libgds
-
-	% cd libsrc
+  * libutil - general function route, such hash, list, link ....
+  * libgds  - GDS reader/writter
+	
+	% cd libsrc/
+	
 	% make clean
+	
 	% make update
 
 
 2. Compile Main Program
 
-  * gds2gdt
-  * gdt2gdx
-  * gds2gdx
+  * gds2gdt - convert GDS (binary format) to GDT (text format)
+  * gdt2gdx - convert GDT (text format) to GDX (binary format)
+  * gds2gdx - convert GDS (binary format) to GDX (binary format)
 
-	% cd main
+	% cd main/
+	
 	% make clean
-	% make update
+	
+	% make publish
 
 
 3. Test Prgoram
 
-	% cd run
-	% make test1
-	% make test2
+	% cd run/
+	
+	% make TEST1
+	
+
 
