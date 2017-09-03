@@ -13,10 +13,9 @@ without decoding the GDS binary format.
   * libgds  - GDS reader/writter
 
 Example:
+
 	% cd libsrc/
-	
 	% make clean
-	
 	% make update
 
 
@@ -26,10 +25,9 @@ Example:
   * gds2gdx - convert GDS (binary format) to GDX (binary format)
 
 Example:
-	% cd main/
-	
+
+	% cd main/	
 	% make clean
-	
 	% make publish
 
 
@@ -39,9 +37,9 @@ Example:
   * TEST3 - check GDS2GDX (muxdelay.gds <=> output.gdx)
   
 Example:
-	% cd run/
-	
+
+	% cd run/	
 	% make TEST1
-	
+
 
 
