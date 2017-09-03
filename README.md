@@ -8,11 +8,11 @@ without decoding the GDS binary format.
 
 ## How to build the executable
 
-1. Compile Utility Library
-
+### 1. Compile Utility Library
   * libutil - general function route, such hash, list, link ....
   * libgds  - GDS reader/writter
-	
+
+Example:
 	% cd libsrc/
 	
 	% make clean
@@ -20,12 +20,12 @@ without decoding the GDS binary format.
 	% make update
 
 
-2. Compile Main Program
-
+### 2. Build Main Program
   * gds2gdt - convert GDS (binary format) to GDT (text format)
   * gdt2gdx - convert GDT (text format) to GDX (binary format)
   * gds2gdx - convert GDS (binary format) to GDX (binary format)
 
+Example:
 	% cd main/
 	
 	% make clean
@@ -33,8 +33,12 @@ without decoding the GDS binary format.
 	% make publish
 
 
-3. Test Prgoram
-
+### 3. Run Test Prgoram
+  * TEST1 - check GDS2GDT+GDT2GDX  (muxdelay.gds <=> muxdelay.gdx)
+  * TEST2 - check GDS2GDT (muxdelay.gdt <=> output.gdt)
+  * TEST3 - check GDS2GDX (muxdelay.gds <=> output.gdx)
+  
+Example:
 	% cd run/
 	
 	% make TEST1
