@@ -1,4 +1,4 @@
-/*
+ /*
  * $Id $
  *
  *
@@ -10,33 +10,39 @@
 
 #define MAX_STRUCT_LEN  512
 
-static char curr_struct_name[MAX_STRUCT_LEN]="";
-static HASH_TABLE struct_table   = NULL;
-static HASH_TABLE element_table  = NULL;
-static HASH_TABLE layer_table    = NULL;
+HASH_TABLE struct_table   = NULL;
+HASH_TABLE element_table  = NULL;
+HASH_TABLE layer_table    = NULL;
+
 static int	struct_num       = 0;
 static int	element_num      = 0;
 static int	ele_aref_num,ele_sref_num,ele_boundary_num,ele_path_num;
 static int	ele_text_num,ele_box_num,ele_node_num;
 
 
-static int proc_gds_info(len,gdsbuf,outbufptr)
-int len;
+long proc_gds_to_gdt_with_filter(len,gdsbuf,outbufptr)
+long len;
 unsigned char *gdsbuf;
 char **outbufptr;
 {
+   static char bgnlib[256]="";
+   static char bgnstr[256]="";
+   static char library_name[GDSNAMELENGTH+1]="";
+   static char struct_name[GDSNAMELENGTH+1]="";
    static GDS_DEF element=NULL;
-   static char struct_name[MAX_STRUCT_LEN];
-   static char bgnstr[MAX_STRUCT_LEN];
    static long layer=-1;
    static LIST line_list=NULL;
+   
+   static BOOL match_library_flag=FALSE;
    static BOOL match_struct_flag=FALSE;
+   static char **tmpbufptr = NULL;
+   
    long   flag;
    char   *ptr;
-   char   *buf;
+   char   *buf = NULL;
 
-   int  i,j;
-   int  size;
+   unsigned int  i,j;
+   unsigned int  size;
    unsigned int  gdsid;
    unsigned int  gdstype;
    GDS_DEF gdsdef;
@@ -44,8 +50,9 @@ char **outbufptr;
    gdsid   = GDSRECID(gdsbuf);
    gdstype = GDSRECTYPE(gdsbuf);
    gdsdef  = gds_def_array + gdsid;
-   size=(gdsdef->size)?abs(gdsdef->size):gds_size[gdstype];
+   
    copy_str(outbufptr,gdsdef->name);
+   size=(gdsdef->size)?abs(gdsdef->size):gds_size[gdstype];
    if (size>0) {
       for(j=0, i=GDSHEADERLENGTH; i<len; j++,i+=size) {
         if (size>len-i) size=len-i;
@@ -53,16 +60,36 @@ char **outbufptr;
       }
       if (gdsdef->num<0) {
         if (j>abs(gdsdef->num))
-           io_error("Data number(%d) of '%s' exceeds limitation(%d)!\n",
+           io_error("[#%04d] Data number(%d) of '%s' exceeds limitation(%d)!\n", gds_record_num,
              len/size,gdsdef->name,gdsdef->num);
       } else {
         if (j!=gdsdef->num)
-           io_error("Data number(%d) of '%s' does not match(%d)!\n",
+           io_error("[#%04d] Data number(%d) of '%s' does not match(%d)!\n", gds_record_num,
              len/size,gdsdef->name,gdsdef->num);
       }
    }
-   buf = *outbufptr;
+   copy_str (&buf, *outbufptr);
    switch(gdsid) {
+     case GDS_LIBNAME:
+       if (strtok(buf,"\"") && (ptr=strtok(NULL,"\""))) {
+          strcpy(library_name,ptr);
+          match_library_flag=TRUE;
+       } else {
+          match_library_flag=FALSE;
+       }
+       break;
+     case GDS_ENDLIB:
+       if (match_struct_flag)  {
+          if (flag_msg_verbose) {
+             if (struct_num ) 
+                io_printf("##   STRUCT   : %4d \n",struct_num);
+          }
+       } else {
+          fprintf(stderr,"%60s\r","");
+       }
+       strcpy(bgnlib,"");
+       match_library_flag=FALSE;
+       break;
      case GDS_BGNSTR:
        strcpy(bgnstr,buf+7);
        break;
@@ -197,7 +224,14 @@ char **outbufptr;
  
        break;
    }
-   return 1;
+   free_str(&buf);
+   
+   if (layer==-2) {
+      copy_str(outbufptr,"");
+   } else {
+      append_str(outbufptr,"\n");
+   }
+   return strlen(*outbufptr);
 }
 
 /**************/
@@ -259,77 +293,3 @@ char *layer_set;
   } string_for_all_end;
 }
 
-int extract_gds_file(gdsin,gdsout)
-char *gdsin;
-char *gdsout;
-{
-  FILE *gdsinfp;
-  FILE *gdsoutfp;
-  char *buffer,*ptr;
-  HASH_ENTRY hash_ele;
-  
-  io_printf("##========================================\n");
-  if ((gdsin==0)||(*gdsin==0)) {
-     gdsinfp=stdin;
-     io_printf("## INPUT GDS FILE  : <stdin>\n");
-  } else if ((gdsinfp=(FILE*)fopen(gdsin,"rb"))==NULL) {
-     io_error("Can not open gds file '%s'\n",gdsin);
-     return 0;
-  } else {
-     io_printf("## INPUT GDS FILE  : %s\n",gdsin);
-  }
-  if (!check_gds_header(gdsinfp)) {
-     io_error("'%s' is not gds format file\n",gdsin);
-     fclose(gdsinfp);
-     return 0;
-  }
-  if ((gdsout==0)||(*gdsout==0)) {
-     gdsoutfp=stdout;
-  } else if ((gdsoutfp=(FILE*)fopen(gdsout,"wb"))==NULL) {
-     io_error("Can not output gdt file to '%s'\n",gdsout);
-     fclose(gdsinfp);
-     return 0;
-  } else {
-     io_printf("## OUTPUT GDS FILE : %s\n",gdsout);
-  }
-  if (hash_entries(struct_table)){
-      hash_for_all_key(struct_table,ptr) {
-        io_printf("## STRUCTURE : %s\n",ptr);
-      } hash_for_all_end;
-  } else {
-      io_printf("## STRUCTURE : (ALL)\n");
-  }
-  if (hash_entries(element_table)) {
-      io_printf("## ELEMENTS  :");
-      hash_for_all_key(element_table,ptr) {
-        io_printf(" %s",ptr);
-      } hash_for_all_end;
-      io_printf("\n");
-  }
-  if (hash_entries(layer_table)) {
-      io_printf("## LAYERS    :");
-      hash_for_all_key(layer_table,ptr) {
-        io_printf(" %d",ptr);
-      } hash_for_all_end;
-      io_printf("\n");
-  }
-  io_printf("##----------------------------------------\n");
-  if ((hash_entries(struct_table)==0)  && 
-      (hash_entries(element_table)==0) &&
-      (hash_entries(layer_table)==0))
-    loop_stream_to_text(gdsinfp,gdsoutfp,proc_text_to_stream);
-  else
-    loop_stream_to_text(gdsinfp,gdsoutfp,proc_text_to_stream);
-  
-  fclose(gdsinfp);
-  fclose(gdsoutfp);
-  if (hash_entries(struct_table)){
-      hash_for_all_entry(struct_table,hash_ele) {
-        if (hash_data(hash_ele)==0) {
-           io_warning("STRUCTURE : \"%s\" is not found.\n",hash_key(hash_ele));
-        }
-      } hash_for_all_end;
-  }
-  return 1;
-}
- 

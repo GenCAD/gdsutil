@@ -114,6 +114,7 @@ int size;
      value=dchars[1]+value*256;
      value=dchars[2]+value*256;
      value=dchars[3]+value*256;
+     if (dchars[0] & 0x80) { value = (value ^ 0xFFFFFFFF) + 1 ; value = -value; }
      sprintf(_tmp_GDS_buf_," %ld",value);
      return _tmp_GDS_buf_;
 }

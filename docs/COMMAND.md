@@ -1,4 +1,5 @@
-# GDS UTILITY
+# GDS UTILITY COMMAND USAGE
+
 ##              Layout GDS Reader (GDS2GDT) Version: V2005r2               ##
 
 Usage:	gds2gdt  [options] <gdsfile:cell> ...
@@ -6,12 +7,9 @@ Usage:	gds2gdt  [options] <gdsfile:cell> ...
 	-logfile	<log file name>
 	-destination	<output destination directory>
 	-extension      <output file extension
-	-gdtfilename    <output gdt file name>
-	-linewidth      <width>
-
-	-structure	<structure>,<structure>,...
-	-element	<elm name>,<elm name>,...
-	-layer		<layer id>,<layer id>,...
+	-outputfile     <output gdt file name>
+	-width          <width>
+	-filter         <filter file>
 
 	+verbose	display detail message
 	+line		include line number of each record
@@ -26,10 +24,10 @@ Usage:	gds2gdt  [options] <gdsfile:cell> ...
 
 Usage:	gdt2gdx  [options] <gdtfile:cell> ...
 
-	-logfile	<log file name>
+	-logfile	 <log file name>
 	-destination    <output destination directory>
 	-extension      <output file extension
-	-gdxfilename    <output gdx file name>
+	-outputfile     <output gdx file name>
 
 	+verbose	display detail message
 	+stdout		write GDS to standard output

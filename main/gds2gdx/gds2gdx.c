@@ -18,7 +18,7 @@ Usage: %s [options] <gdsfile:cell> ...\n\
 	-logfile	<log file name>\n\
 	-destination	<output destination directory>\n\
 	-extension      <output file extension\n\
-	-gdxfilename    <output gds file name>\n\
+	-outputfile    <output gds file name>\n\
 \n\
 	-linewidth      <width>\n\
 	-structure	<structure>,<structure>,...\n\
@@ -119,9 +119,9 @@ char *argv[];
           strcpy(destination,arg);
        } else if (strncasecmp(opt,"extension",strlen(opt))==0) {
           strcpy(extension,arg);
-       } else if (strncasecmp(opt,"gdxfilename",strlen(opt))==0) {
+       } else if (strncasecmp(opt,"outputfile",strlen(opt))==0) {
           strcpy(gdxout,arg);
-       } else if (strncasecmp(opt,"linewidth",strlen(opt))==0) {
+       } else if (strncasecmp(opt,"width",strlen(opt))==0) {
           flag_disp_line=FALSE;
           sscanf(arg,"%d",&max_line_width);
        } else if (strncasecmp(opt,"structure",strlen(opt))==0) {
@@ -180,10 +180,10 @@ char *argv[];
       if (strcmp(gdsin,gdxout)==0) {
          io_error("Input GDS file '%s' conflict with output file '%s'.\n",gdsin, gdxout);
       } else {
-         extract_gds_file(gdsin,(flag_stdout)?0:gdxout);
+         translate_gds_to_gdx(gdsin,(flag_stdout)?0:gdxout);
       }
     } string_for_all_end;
-    if (flag_stdin)  extract_gds_file(0,0);
+    if (flag_stdin)  translate_gds_to_gdx(0,0);
     io_printf("##========================================\n");
   }
   io_summary();

@@ -1,4 +1,4 @@
-include ../../etc/makefile.inc
+include ../../etc/make/header.make
 
 PKG_NAME = libutil
 PKG_DEPS = 
@@ -29,4 +29,4 @@ UTIL_OBJS =     \
 		status.o \
 		iofunc.o
 
-include ../../etc/makefile.lib
+include ../../etc/make/liba.make

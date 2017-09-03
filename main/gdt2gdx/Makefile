@@ -1,10 +1,10 @@
 .KEEP_STATE:
-include ../../etc/makefile.inc
+include ../../etc/make/header.make
 
 PROG_NAME = gdt2gdx
 PROG_INCS = gdt2gdx.h
 PROG_OBJS = 
 EXTR_LIBS = -lgds -lutil
 
-include ../../etc/makefile.bin
+include ../../etc/make/main.make
 

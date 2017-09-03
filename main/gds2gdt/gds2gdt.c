@@ -19,9 +19,9 @@ Usage: %s [options] <gdsfile:cell> ...\n\
 	-logfile	<log file name>\n\
 	-destination	<output destination directory>\n\
 	-extension      <output file extension\n\
-	-gdtfilename    <output gdt file name>\n\
+	-outputfile    <output gdt file name>\n\
+	-width          <width>\n\
 \n\
-	-linewidth      <width>\n\
 	-structure	<structure>,<structure>,...\n\
 	-element	<elm name>,<elm name>,...\n\
 	-layer		<layer id>,<layer id>,...\n\
@@ -123,9 +123,10 @@ char *argv[];
           strcpy(destination,arg);
        } else if (strncasecmp(opt,"extension",strlen(opt))==0) {
           strcpy(extension,arg);
-       } else if (strncasecmp(opt,"gdtfilename",strlen(opt))==0) {
+       } else if (strncasecmp(opt,"outputfile",strlen(opt))==0) {
           strcpy(gdtout,arg);
-       } else if (strncasecmp(opt,"linewidth",strlen(opt))==0) {
+       } else if (strncasecmp(opt,"width",strlen(opt))==0) {
+          flag_disp_line=FALSE;
           sscanf(arg,"%d",&max_line_width);
        } else if (strncasecmp(opt,"structure",strlen(opt))==0) {
           flag_search_all = FALSE;

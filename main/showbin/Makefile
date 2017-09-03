@@ -1,10 +1,10 @@
 .KEEP_STATE:
-include ../../etc/makefile.inc
+include ../../etc/make/header.make
 
 PROG_NAME = showbin
 PROG_INCS = 
 PROG_OBJS = 
 EXTR_LIBS = -lgds -lutil
 
-include ../../etc/makefile.bin
+include ../../etc/make/main.make
 

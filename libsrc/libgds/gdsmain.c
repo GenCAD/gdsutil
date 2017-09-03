@@ -22,7 +22,7 @@ char *gdtout;
   if ((gdsin==0)||(*gdsin==0)) {
      gdsinfp=stdin;
      io_printf("## INPUT GDS FILE  : <stdin>\n");
-  } else if ((gdsinfp=(FILE*)fopen64(gdsin,"rb"))==NULL) {
+  } else if ((gdsinfp=(FILE*)fopen(gdsin,"rb"))==NULL) {
      io_error("Can not open gds file '%s'\n",gdsin);
      return 0;
   } else {
@@ -35,23 +35,54 @@ char *gdtout;
   }
   if ((gdtout==0)||(*gdtout==0)) {
      gdtoutfp=stdout;
-  } else if ((gdtoutfp=(FILE*)fopen64(gdtout,"w"))==NULL) {
+  } else if ((gdtoutfp=(FILE*)fopen(gdtout,"w"))==NULL) {
      io_error("Can not output gdt file to '%s'\n",gdtout);
      fclose(gdsinfp);
      return 0;
   } else {
      io_printf("## OUTPUT GDT FILE : %s\n",gdtout);
   }
+  if (hash_entries(struct_table)){
+      hash_for_all_key(struct_table,ptr) {
+        io_printf("## STRUCTURE : %s\n",ptr);
+      } hash_for_all_end;
+  } else {
+      io_printf("## STRUCTURE : (ALL)\n");
+  }
+  if (hash_entries(element_table)) {
+      io_printf("## ELEMENTS  :");
+      hash_for_all_key(element_table,ptr) {
+        io_printf(" %s",ptr);
+      } hash_for_all_end;
+      io_printf("\n");
+  }
+  if (hash_entries(layer_table)) {
+      io_printf("## LAYERS    :");
+      hash_for_all_key(layer_table,ptr) {
+        io_printf(" %d",ptr);
+      } hash_for_all_end;
+      io_printf("\n");
+  }
   io_printf("##----------------------------------------\n");
-  loop_gds_record(gdsinfp,gdtoutfp,proc_gds_to_gdt);
+  if ((hash_entries(struct_table)==0)  && 
+      (hash_entries(element_table)==0) &&
+      (hash_entries(layer_table)==0))
+    loop_gds_to_gdt(gdsinfp,gdtoutfp,proc_gds_to_gdt);
+  else
+    loop_gds_to_gdt(gdsinfp,gdtoutfp,proc_gds_to_gdt_with_filter);
   
   fclose(gdsinfp);
   fclose(gdtoutfp);
-
+  if (hash_entries(struct_table)){
+      hash_for_all_entry(struct_table,hash_ele) {
+        if (hash_data(hash_ele)==0) {
+           io_warning("STRUCTURE : \"%s\" is not found.\n",hash_key(hash_ele));
+        }
+      } hash_for_all_end;
+  }
   return 1;
 }
-
-
+ 
 int translate_gds_to_gdx(gdsin,gdsout)
 char *gdsin;
 char *gdsout;
@@ -107,12 +138,8 @@ char *gdsout;
       io_printf("\n");
   }
   io_printf("##----------------------------------------\n");
-  if ((hash_entries(struct_table)==0)  && 
-      (hash_entries(element_table)==0) &&
-      (hash_entries(layer_table)==0))
-    loop_gds_record(gdsinfp,gdsoutfp,proc_gds_to_gdt);
-  else
-    loop_gds_record(gdsinfp,gdsoutfp,proc_gds_to_gdt_with_filter);
+
+  loop_gds_to_gdx(gdsinfp,gdsoutfp,proc_gds_to_gdx);
   
   fclose(gdsinfp);
   fclose(gdsoutfp);
@@ -126,7 +153,7 @@ char *gdsout;
   return 1;
 }
  
-int translate_gdt_to_gds(gdtin,gdsout)
+int translate_gdt_to_gdx(gdtin,gdsout)
 char *gdtin;
 char *gdsout;
 {
@@ -147,13 +174,13 @@ char *gdsout;
   if ((gdsout==NULL)||(*gdsout==0)) {
      gdsoutfp=stdout;
   } else if ((gdsoutfp=(FILE*)fopen64(gdsout,"wb"))==NULL) {
-     io_error("Can not output gdt file to '%s'\n",gdsout);
+     io_error("Can not output gds file to '%s'\n",gdsout);
      fclose(gdtinfp);
      return 0;
   } else {
      io_printf("## OUTPUT GDS FILE : %s\n",gdsout);
   }
-  gds_len = loop_gdt_record(gdtinfp,gdsoutfp,proc_gdt_to_gds);
+  gds_len = loop_gdt_to_gdx(gdtinfp,gdsoutfp,proc_gdt_to_gdx);
   gds_len = 2048 - (gds_len % 2048);
 /*  if (gds_len>0) { fwrite("",1,gds_len,gdsoutfp); } */
   fclose(gdtinfp);

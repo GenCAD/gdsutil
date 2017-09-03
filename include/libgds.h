@@ -1,7 +1,7 @@
 /*
  *
  * Package : GenCAD Utility Header
- * Date    : 08/30/17
+ * Date    : 09/03/17
  *
  */
 #ifndef __libgds_HEADER_H_
@@ -132,34 +132,48 @@ extern char* decode_gds_data();
 #ifndef __GDSUTIL_H__
 #define __GDSUTIL_H__
 
-#define fopen64 fopen
-
 extern int  max_line_width;
+extern int  gds_record_num;
+extern int  gdt_line_num;
+
+extern BOOL flag_msg_verbose;
+extern BOOL flag_disp_line;
 extern BOOL flag_disp_length;
-extern BOOL flag_disp_all;
 extern BOOL flag_disp_header;
 extern BOOL flag_disp_hier;
-extern BOOL flag_disp_line;
-extern BOOL flag_msg_verbose;
 
-int check_gds_header();
-int read_gds_record();
-long loop_stream_to_text();
-long loop_text_to_stream();
-unsigned int proc_strem_to_text();
-int proc_text_to_stream();
-
-int translate_gds_to_gdt();
-int translate_gdt_to_gds();
+extern int check_gds_header();
+extern int read_gds_record();
+extern long loop_gds_to_gdt();
+extern long loop_gdt_to_gdx();
+extern long loop_gds_to_gdx();
+extern long proc_gds_to_gdt();
+extern long proc_gdt_to_gdx();
+extern long proc_gds_to_gdx();
 
 #endif
 #ifndef __GDS_FILTER_H__
 #define __GDS_FILTER_H__
 
+extern HASH_TABLE struct_table;
+extern HASH_TABLE element_table;
+extern HASH_TABLE layer_table;
+
 extern int append_gds_struct_filter();
 extern int assign_gds_struct_filter();
 extern int assign_gds_element_filter();
 extern int assign_gds_layer_filter();
-extern int extract_gds_file();
+
+extern long proc_gds_to_gdt_with_filter();
+
+#endif
+#ifndef __GDSMAIN_H__
+#define __GDSMAIN_H__
+
+#define fopen64 fopen
+
+int translate_gds_to_gdt();
+int translate_gdt_to_gdx();
+int translate_gds_to_gdx();
 
 #endif

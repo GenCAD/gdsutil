@@ -9,7 +9,7 @@ UTIL_BIN = ../../bin
 # Local Compile directory
 SRC_DIR   = src
 OBJ_DIR   = obj
-OUT_DIR   = lib
+LIB_DIR   = lib
 
 #
 #

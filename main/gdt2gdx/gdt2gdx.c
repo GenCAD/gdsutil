@@ -18,7 +18,7 @@ Usage: %s [options] <gdtfile:cell> ...\n\
 	-logfile	<log file name>\n\
 	-destination    <output destination directory>\n\
 	-extension      <output file extension\n\
-	-gdxfilename    <output gdx file name>\n\
+	-outputfile     <output gdx file name>\n\
 \n\
 	+verbose        display detail message\n\
 	+stdout	        write GDS to standard output\n\
@@ -99,7 +99,7 @@ char *argv[];
           strcpy(destination,arg);
        } else if (strncasecmp(opt,"extension",strlen(opt))==0) {
           strcpy(extension,arg);
-       } else if (strncasecmp(opt,"gdxfilename",strlen(opt))==0) {
+       } else if (strncasecmp(opt,"outputfile",strlen(opt))==0) {
           strcpy(gdxout,arg);
        } else {
           io_error("Unknown options '-%s'\n",opt);
@@ -144,9 +144,9 @@ char *argv[];
             sprintf(gdxout,"%s.%s",struct_name,extension);
          }
       }
-      translate_gdt_to_gds(gdtin,flag_stdout?0:gdxout);
+      translate_gdt_to_gdx(gdtin,flag_stdout?0:gdxout);
     } string_for_all_end;
-    if (flag_stdin) translate_gdt_to_gds(0,flag_stdout?0:(*gdxout)?gdxout:"gdt2gdx.gdx");
+    if (flag_stdin) translate_gdt_to_gdx(0,flag_stdout?0:(*gdxout)?gdxout:"gdt2gdx.gdx");
     io_printf("##========================================\n");
   }
   io_summary();
