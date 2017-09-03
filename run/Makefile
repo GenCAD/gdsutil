@@ -1,47 +1,78 @@
+
+
 BINDIR  = ../bin
+
 GDS2GDT = $(BINDIR)/gds2gdt 
 GDT2GDX = $(BINDIR)/gdt2gdx
 GDS2GDX = $(BINDIR)/gds2gdx
-SHOWGDS = $(BINDIR)/showgds
 
-TESTCASE = ../data/muxdelay.gds
+TEST_SUITE = TEST1 TEST2 TEST3
 
+all : $(TEST_SUITE)
+
+
+include ../etc/make/test.make
+
+clean: clean_test_result 
+	rm -fr output.* *.log *.gdt *.gdx TEST.*
+
+#
+# TEST1:
 #
 # muxdelay.gds => muxdelay.gdt
-# muxdelay.gdt => muxdelay.gdx  (diff with muxdelay.gds)
-# muxdelay.gdx => output.gdt    (diff with muxdelay.gdt)
+# muxdelay.gdt => muxdelay.gdx 
+#
+# compare muxdelay.gdx with muxdelay.gds
 # 
+TEST1.title  = GDS2GDT/GDT2GDX conversion
+TEST1.target = muxdelay.gdx
+TEST1.golden = muxdelay.gds
 
-all : test1 test2
+muxdelay.gdt: muxdelay.gds
+	$(GDS2GDT) +verbose muxdelay.gds -logfile gds2gdt_muxdelay.log -o muxdelay.gdt
 
-muxdelay.gdt: $(GDS2GDT)
-	$(GDS2GDT) +verbose $(TESTCASE) -logfile muxdelay_gds2gdt.log  -destination . 
+muxdelay.gdx: muxdelay.gdt 
+	$(GDT2GDX) +verbose muxdelay.gdt -logfile gdt2gdx_muxdelay.log -o muxdelay.gdx
 
-muxdelay.gdx: muxdelay.gdt $(GDT2GDX)
-	$(GDT2GDX) +verbose muxdelay.gdt -logfile muxdelay_gdt2gdx.log
+#
+# TEST2:
+#
+# muxdelay.gdx => output.gdt
+# compare output.gdt with muxdelay.gdt
+#
+TEST2.title  = GDT2GDX/GDX2GDT conversion
+TEST2.target = output.gdt
+TEST2.golden = muxdelay.gdt
+TEST2.check  = diff $(TEST2.target) $(TEST2.golden)
 
-test1: $(TESTCASE) muxdelay.gdx
-	cmp	$(TESTCASE) muxdelay.gdx
-
-
-output.gdt: muxdelay.gdx $(GDS2GDT)
-	$(GDS2GDT) +verbose muxdelay.gdx -gdtfile output.gdt  -logfile output_gds2gdt.log
-	
-test2: muxdelay.gdt output.gdt
-	diff	muxdelay.gdt output.gdt
-
-output.gdx: $(TESTCASE) $(GDS2GDX)
-	$(GDS2GDX) +verbose $(TESTCASE) -gdxfile output.gdx   -logfile output_gds2gdx.log
-	
-test3: output.gdx
-	cmp	$(TESTCASE) output.gdx
+output.gdt: muxdelay.gdx 
+	$(GDS2GDT) +verbose muxdelay.gdx -logfile gds2gdt_output.log -o output.gdt  
 	
 #
-# muxdelay.gds => new2.gds (diff with muxdelay.gds)
-# new2.gds     => new2.gdt (diff with muxdelay.gdt)
- 
-new.gdt: muxdelay.gdx
-	$(SHOWGDS) +verbose muxdelay.gdx  > new.gdt -logfile output_showgds.log
+# TEST3:
+#
+# muxdelay.gds => output.gdx
+# compare output.gdx with muxdelay.gds
+#
+TEST3.title  = GDS2GDX conversion
+TEST3.target = output.gdx
+TEST3.golden = muxdelay.gds
+TEST3.check  = cmp -l $(TEST3.target) $(TEST3.golden)
 
-clean:
-	rm -fr muxdelay.* output.* *.log *.gdt *.gdx
+output.gdx: muxdelay.gds 
+	$(GDS2GDX) +verbose muxdelay.gds -logfile gds2gdx_output.log -o output.gdx   
+
+#
+# TEST4:
+#
+# muxdelay.gds => layer.gdt
+# compare output.gdx with muxdelay.gds
+#
+TEST4.title  = GDS2GDT with layer
+TEST4.target = layer.gdt
+TEST4.golden = muxdelay.gdt
+TEST4.check  = diff $(TEST4.target) $(TEST4.golden)
+
+layer.gdt: $(GD2GDT) muxdelay.gds
+	$(GDS2GDT) -layer 3 muxdelay.gds -logfile gds2gdt_layer.log -o layer.gdt
+	
