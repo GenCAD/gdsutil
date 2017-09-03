@@ -12,11 +12,11 @@ without decoding the GDS binary format.
   * libutil - general function route, such hash, list, link ....
   * libgds  - GDS reader/writter
 
-Example:
-
-	% cd libsrc/
-	% make clean
-	% make update
+	Example:
+	
+		% cd libsrc/
+		% make clean
+		% make update
 
 
 ### 2. Build Main Program
@@ -24,11 +24,11 @@ Example:
   * gdt2gdx - convert GDT (text format) to GDX (binary format)
   * gds2gdx - convert GDS (binary format) to GDX (binary format)
 
-Example:
+	Example:
 
-	% cd main/	
-	% make clean
-	% make publish
+		% cd main/	
+		% make clean
+		% make publish
 
 
 ### 3. Run Test Prgoram
@@ -36,10 +36,10 @@ Example:
   * TEST2 - check GDS2GDT (muxdelay.gdt <=> output.gdt)
   * TEST3 - check GDS2GDX (muxdelay.gds <=> output.gdx)
   
-Example:
+	Example:
 
-	% cd run/	
-	% make TEST1
+		% cd run/	
+		% make TEST1
 
 
 
