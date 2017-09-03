@@ -2,9 +2,9 @@
 
 PACKAGES = libutil libgds
 
-target: update
+all: publish
 
-package compile update clean:
+publish package compile clean:
 	@for dir in $(PACKAGES); do \
 	(cd $$dir; echo "*** Entering [$$dir]..."; make $@); \
 	done;

@@ -1,3 +1,4 @@
+.KEEP_STATE:
 include ../../etc/make/header.make
 
 PKG_NAME = libutil

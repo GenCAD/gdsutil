@@ -1,6 +1,5 @@
 #include "header.h"
 
-extern int end, etext, edata;
 
 static char out_buffer[MAX_OUTBUF_SIZE];
 
@@ -13,6 +12,7 @@ FILE *fp;
     double user, system, scale;
     char hostname[MAX_FILENAME_LEN];
 //    caddr_t sbrk();
+    int end, etext, edata;
     int vm_text, vm_init_data, vm_uninit_data, vm_sbrk_data;
  
     /* Get the hostname */
@@ -70,6 +70,7 @@ FILE *fp;
     (void) fprintf(fp, "Context switch (voluntary) = %ld\n", rusage.ru_nvcsw);
     (void) fprintf(fp, "Context switch (involuntary) = %ld\n", rusage.ru_nivcsw);
 }
+
 
 char *system_status()
 {

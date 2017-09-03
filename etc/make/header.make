@@ -2,14 +2,16 @@ PKGNAME  = gdsutil
 PKGVERN  = v2017.9
 
 # Final Releae direcotry
-LIBS_INC = ../../include
-LIBS_DIR = ../../lib
-UTIL_BIN = ../../bin
+MAIN_BIN = ../../bin
+MAIN_INC = ../../include
+MAIN_LIB = ../../lib
+MAIN_ETC = ../../etc
 
 # Local Compile directory
 SRC_DIR   = src
 OBJ_DIR   = obj
 LIB_DIR   = lib
+BIN_DIR   = bin
 
 #
 #
@@ -21,13 +23,13 @@ CAT	= cat
 #
 # for cc
 #
-CC      = gcc -g -fPIC 
+CC      = gcc -g  
 #-D_LARGEFILE64_SOURCE
 CFLAGS	=   \
                 -DPKGNAME=\"$(PKGNAME)\" \
                 -DPKGVERN=\"$(PKGVERN)\" \
-		-I$(LIBS_INC) \
-		-L$(LIBS_DIR)
+		-I$(MAIN_INC) \
+		-L$(MAIN_LIB)
 EXTFLAGS= 
 LEX     = flex -l
 LFLAGS  =
