@@ -1,7 +1,7 @@
 /*
  *
  * Package : GenCAD Utility Header
- * Date    : 09/04/17
+ * Date    : 11/03/19
  *
  */
 #ifndef __libgds_HEADER_H_
@@ -10,7 +10,7 @@
 #undef  PKGVERN
 
 #define PKGNAME  "libgds"
-#define PKGVERN  "V2017.9"
+#define PKGVERN  "V2019.10"
 
 #include "libutil.h"
 

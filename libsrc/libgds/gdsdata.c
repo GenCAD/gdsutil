@@ -240,14 +240,16 @@ int size;
   char *ptr;
   int  i=0;
   int  max=abs(size);
-  ptr=buf+1;
+  ptr=buf;
+  if (*ptr=='\"') ptr++;
   while(*ptr && (*ptr!='\"') && (i<max)) {
-    if (*ptr=='\\') ptr++;
+    if (*ptr==0x5C) ptr++; /*back slash */
     dchars[i]=*ptr;
     ptr++;i++;
   }
   while((i<size)||(i%2)) dchars[i++]=0;  
   dchars[i]=0;
+//  io_printf("DEBUG:%s\n",dchars);
   return i;
 }
 

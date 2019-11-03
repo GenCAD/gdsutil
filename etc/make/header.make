@@ -1,5 +1,5 @@
 PKGNAME  = gdsutil
-PKGVERN  = v2017.9
+PKGVERN  = v2019.10
 
 # Final Releae direcotry
 MAIN_BIN = ../../bin

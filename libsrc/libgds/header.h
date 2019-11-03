@@ -4,7 +4,7 @@
 #undef  PKGVERN
 
 #define PKGNAME  "libgds"
-#define PKGVERN  "V2017.9"
+#define PKGVERN  "V2019.10"
 
 #include "libutil.h"
 

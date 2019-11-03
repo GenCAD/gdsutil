@@ -118,8 +118,16 @@ char *outbuf;
      if (strcasecmp(keyword,gdsdef->name)==0) {
         buflen=GDSHEADERLENGTH;
         if (gdsdef->size) {
-           while(token=strtok(NULL," \t\n")) {
-             buflen+=encode_gds_data(gdsdef->type,token,outbuf+buflen,gdsdef->size);
+           if (gdsdef->type==GDS_ASCII) {
+             while((token=strtok(NULL,"\""))) {
+//               io_printf("ASCII:%s\n",token);
+               buflen+=encode_gds_data(gdsdef->type,token,outbuf+buflen,gdsdef->size);
+               ptr=strtok(NULL,"\"");
+             }
+           } else {
+             while(token=strtok(NULL," \t\n")) {
+               buflen+=encode_gds_data(gdsdef->type,token,outbuf+buflen,gdsdef->size);
+             }
            }
         }
         outbuf[0]=buflen / 256;

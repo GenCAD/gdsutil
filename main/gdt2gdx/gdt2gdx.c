@@ -9,8 +9,8 @@
 
 static const char* BANNER="\
 #############################################################\n\
-##               Layout GDS Writer (GDT2GDX)               ##\n\
-##                 Version: %-10s                     ##\n\
+##               Layout GDS Writer (GDT2GDX) %-10s    ##\n\
+##                 GDSUTIL Version: %-10s             ##\n\
 #############################################################\n\
 ";
 static char* HELP_DOC="\
@@ -47,7 +47,7 @@ char *argv[];
   BOOL flag_stdin  = FALSE;
 
   if (argc<2) { 
-     printf(BANNER,VERSION);
+     printf(BANNER,VERSION,PKGVERN);
      printf(HELP_DOC,PROGRAM);
      return -1;
   }
@@ -66,7 +66,7 @@ char *argv[];
   set_syslog_file(logfile);
   set_sysout_fp(stdout);
   open_syslog_file();
-  io_printf(BANNER,VERSION);
+  io_printf(BANNER,VERSION,PKGVERN);
   io_printf("## DATE      : %s\n",get_time());
   *destination=0;
   copy_str(&filelist,NULL);
