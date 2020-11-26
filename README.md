@@ -1,16 +1,17 @@
-# GenCAD GDS UTILITY
+# Generic GDS UTILITY
+- The utility is developed by Albert Li since 1996.
 
 ## Purpose:
-The main purpose of GenCAD GDS utility is to convert binary GDS file 
-to a readable text format(GDT), so user can validate the design content,
-modify or manipulate the content using simple script like tcl or perl 
-without decoding the GDS binary format.
+  The main purpose of this Generic GDS utility is to convert binary GDS-II file 
+to a readable text format (GDT), so user can validate the design content,
+modify or manipulate the content using simple script languate such as tcl or perl 
+without decoding the GDS-II binary format.
 
 ## How to build the executable
 
 ### 1. Compile Utility Library
-  * libutil - general function route, such hash, list, link ....
-  * libgds  - GDS reader/writter
+  * libutil - general utility routine, such hash, list, link ....
+  * libgds  - GDS-II reader/writter
 
 	Example:
 	
@@ -40,6 +41,4 @@ without decoding the GDS binary format.
 
 		% cd run/	
 		% make TEST1
-
-
 
